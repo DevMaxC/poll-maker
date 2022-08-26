@@ -5,9 +5,11 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import { setCookie, getCookie } from "cookies-next";
 import Image from "next/image";
+import { useAutoAnimate } from "@formkit/auto-animate/react";
 
 import { PencilSquareIcon } from "@heroicons/react/24/outline";
 import Head from "next/head";
+import { ChartBarIcon } from "@heroicons/react/24/solid";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const questionData = await prisma.questions.findUnique({
@@ -59,6 +61,9 @@ export default function ViewPost(p: Props) {
   const [answers, setAnswers] = useState(info?.answers || []);
 
   const [showResults, setShowResults] = useState(false);
+  const [showStats, setShowStats] = useState(false);
+
+  const [animationParent] = useAutoAnimate<HTMLDivElement>();
 
   const router = useRouter();
 
@@ -116,9 +121,22 @@ export default function ViewPost(p: Props) {
             </Link>
           </div>
 
-          <h1 className="text-2xl mx-8 pb-1 pr-1 text-gray-200 truncate align-top text-center">
-            {info?.title}
-          </h1>
+          <div ref={animationParent} className="flex flex-col items-center">
+            <h1 className="text-2xl max-w-[80%] pb-1 pr-1 text-gray-200 align-top text-center">
+              {info?.title}{" "}
+            </h1>
+
+            {showStats && (
+              <h1
+                className={`text-2xl max-w-[80%] pb-1 pr-1 text-gray-200 align-top text-center ${
+                  showStats ? "block" : "hidden"
+                }`}
+              >
+                {getSum(answers)} Votes
+              </h1>
+            )}
+          </div>
+
           <div className="mt-2 absolute right-0 top-4 cursor-pointer hover:scale-105 transition">
             <Link href="https://github.com/DevMaxC/poll-maker">
               <Image src="/github.png" height={24} width={24} alt="logo" />
@@ -154,7 +172,18 @@ export default function ViewPost(p: Props) {
                       : "opacity-0 -translate-x-full"
                   }`}
                 ></div>
-                <h1 className="drop-shadow-md">{answer.title}</h1>
+                <div className="justify-center">
+                  <h1 className="drop-shadow-md flex justify-center transition">
+                    {answer.title + " "}
+                    <span
+                      className={`${
+                        showStats ? "opacity-100 block" : "opacity-0 hidden"
+                      }`}
+                    >
+                      {" - "} {answer.votes}
+                    </span>
+                  </h1>
+                </div>
               </button>
             </li>
           ))}
@@ -171,14 +200,30 @@ export default function ViewPost(p: Props) {
         >
           Submit Vote
         </button>
-        <button
-          onClick={() => {
-            setShowResults(!showResults);
-          }}
-          className="w-full mt-4 bg-gray-500 font-semibold p-4 rounded-lg hover:bg-gray-600 transition duration-300"
-        >
-          {showResults ? "Hide Results" : "Show Results"}
-        </button>
+        <div className="w-full rounded-lg overflow-hidden relative">
+          <button
+            onClick={() => {
+              setShowResults(!showResults);
+            }}
+            className="w-full mt-4 bg-gray-500 font-semibold p-4 rounded-lg hover:bg-gray-600 transition duration-300"
+          >
+            {showResults ? "Hide Results" : "Show Results"}
+          </button>
+          <button
+            onClick={() => {
+              setShowStats(!showStats);
+            }}
+            className={` right-4 top-1/2 -translate-y-2 ${
+              showStats
+                ? "bg-green-800/70 hover:bg-green-700"
+                : "bg-red-800/70 hover:bg-red-700"
+            } font-semibold p-2 rounded-full text-gray-300  transition duration-300 ${
+              showResults ? "absolute" : "hidden"
+            }`}
+          >
+            <ChartBarIcon width={16} height={16} />
+          </button>
+        </div>
       </div>
     </div>
   );
