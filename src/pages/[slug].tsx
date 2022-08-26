@@ -7,6 +7,7 @@ import { setCookie, getCookie } from "cookies-next";
 import Image from "next/image";
 
 import { PencilSquareIcon } from "@heroicons/react/24/outline";
+import Head from "next/head";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const questionData = await prisma.questions.findUnique({
@@ -103,6 +104,10 @@ export default function ViewPost(p: Props) {
 
   return (
     <div className="bg-gray-800 text-gray-200 min-h-screen px-4 relative">
+      <Head>
+        <title>{info?.title}</title>
+        <meta property="og:title" content={"Poll: " + info?.title} />
+      </Head>
       <div className="min-h-screen max-w-sm mx-auto ">
         <div className="flex justify-center relative w-full gap-4 items-center py-4">
           <div className="absolute mt-2 left-0 top-4 cursor-pointer hover:scale-105 transition">
