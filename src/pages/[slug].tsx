@@ -4,6 +4,9 @@ import { useEffect, useState } from "react";
 import { Router, useRouter } from "next/router";
 import Link from "next/link";
 import { setCookie, getCookie } from "cookies-next";
+import Image from "next/image";
+
+import { PencilSquareIcon } from "@heroicons/react/24/outline";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const questionData = await prisma.questions.findUnique({
@@ -99,12 +102,26 @@ export default function ViewPost(p: Props) {
   };
 
   return (
-    <div className="bg-gray-800 text-gray-200 min-h-screen px-4">
+    <div className="bg-gray-800 text-gray-200 min-h-screen px-4 relative">
       <div className="min-h-screen max-w-sm mx-auto ">
-        <h1 className="text-2xl text-gray-200 text-center  mx-auto py-4">
-          {info?.title}
-        </h1>
-        <ul className="flex flex-col overflow-hidden rounded-lg my-4">
+        <div className="flex justify-center relative w-full gap-4 items-center py-4">
+          <div className="absolute mt-2 left-0 top-4 cursor-pointer hover:scale-105 transition">
+            <Link href={"/"}>
+              <PencilSquareIcon height={24} width={24} />
+            </Link>
+          </div>
+
+          <h1 className="text-2xl mx-8 pb-1 pr-1 text-gray-200 truncate align-top text-center">
+            {info?.title}
+          </h1>
+          <div className="mt-2 absolute right-0 top-4 cursor-pointer hover:scale-105 transition">
+            <Link href="https://github.com/DevMaxC/poll-maker">
+              <Image src="/github.png" height={24} width={24} alt="logo" />
+            </Link>
+          </div>
+        </div>
+
+        <ul className="flex flex-col overflow-hidden rounded-lg">
           {answers.map((answer, index) => (
             <li key={answer.title}>
               <button

@@ -1,9 +1,11 @@
 import type { NextPage } from "next";
 import Head from "next/head";
+import Image from "next/image";
 import { useRef, useState } from "react";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { XMarkIcon, PlusIcon } from "@heroicons/react/24/solid";
 import Router from "next/router";
+import Link from "next/link";
 
 const submit = async (array: string[], question: string) => {
   const response = await fetch("/api/submit", {
@@ -27,10 +29,18 @@ const Create: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className="min-h-screen max-w-sm mx-auto ">
-        <h1 className="text-2xl text-gray-200 text-center  mx-auto py-4">
-          Poll
-        </h1>
+      <main className="min-h-screen max-w-sm mx-auto relative">
+        <div>
+          <h1 className="text-2xl text-gray-200 text-center mx-auto py-4">
+            Poll
+          </h1>
+          <div className="mt-2 absolute right-0 top-4 cursor-pointer hover:scale-105 transition">
+            <Link href="https://github.com/DevMaxC/poll-maker">
+              <Image src="/github.png" height={24} width={24} alt="logo" />
+            </Link>
+          </div>
+        </div>
+
         <div className="flex flex-col items-center w-full">
           <div className="mb-6 w-full">
             <label
@@ -43,7 +53,7 @@ const Create: NextPage = () => {
               type="text"
               ref={questionRef}
               id="large-input"
-              className="block p-4 w-full text-gray-900 bg-gray-50 rounded-lg  sm:text-md focus:ring-blue-500 "
+              className="block p-4 w-full text-gray-900 bg-gray-50 rounded-lg overflow-hidden  sm:text-md focus:ring-blue-500 "
             ></input>
           </div>
           <div
