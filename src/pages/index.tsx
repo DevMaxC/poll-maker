@@ -86,13 +86,14 @@ const Create: NextPage = () => {
                   className="multi block p-4 w-full text-gray-900 bg-gray-50 border-b border-gray-300 sm:text-md focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 ></input>
                 <button
+                  disabled={options.length == 1}
                   onClick={() => {
                     setOptions([
                       ...options.slice(0, index),
                       ...options.slice(index + 1),
                     ]);
                   }}
-                  className="absolute top-1/2 -translate-y-1/2 text-red-500 right-4"
+                  className="absolute top-1/2 -translate-y-1/2 text-red-500 disabled:opacity-50 right-4"
                 >
                   <XMarkIcon height={24} width={24} />
                 </button>
