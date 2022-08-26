@@ -20,7 +20,7 @@ const Create: NextPage = () => {
   const [animationParent] = useAutoAnimate<HTMLDivElement>();
   const questionRef = useRef<HTMLInputElement>(null);
   return (
-    <div className="bg-gray-800 ">
+    <div className="bg-gray-800 px-4">
       <Head>
         <title>Create Poll</title>
         <meta name="description" content="Create a poll" />

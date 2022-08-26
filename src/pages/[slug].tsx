@@ -99,7 +99,7 @@ export default function ViewPost(p: Props) {
   };
 
   return (
-    <div className="bg-gray-800 text-gray-200 min-h-screen">
+    <div className="bg-gray-800 text-gray-200 min-h-screen px-4">
       <div className="min-h-screen max-w-sm mx-auto ">
         <h1 className="text-2xl text-gray-200 text-center  mx-auto py-4">
           {info?.title}
