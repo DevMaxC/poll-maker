@@ -8,6 +8,17 @@ import Router from "next/router";
 import Link from "next/link";
 
 const submit = async (array: string[], question: string) => {
+  if (array.length === 0) {
+    return;
+  }
+
+  // check if any answers are blank
+  for (let i = 0; i < array.length; i++) {
+    if (array[i] === "") {
+      return;
+    }
+  }
+
   const response = await fetch("/api/submit", {
     method: "POST",
     body: JSON.stringify({ question, answers: array }),
