@@ -9,6 +9,10 @@ input[type="submit"] {
   -webkit-appearance: none;
 }
 
+.multi {
+  border-radius: 0%;
+}
+
 ul {
   overflow: hidden;
 }
